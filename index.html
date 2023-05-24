@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Zade</title>
+    <style>
+      body {
+        padding: 20px;
+      }
+    </style>
+    <script>
+      function updateImage() {
+        var imageUrl = document.getElementById('imageInput').value;
+        var imageElement = document.getElementById('editableImage');
+        imageElement.src = imageUrl;
+      }
+
+      function downloadPage() {
+        // Disable editing on all elements
+        var editableElements = document.querySelectorAll('[contenteditable="true"]');
+        editableElements.forEach(function (element) {
+          element.removeAttribute('contenteditable');
+        });
+
+        // Remove download button before downloading
+        var downloadButton = document.getElementById('downloadButton');
+        downloadButton.parentNode.removeChild(downloadButton);
+
+        var htmlContent = document.documentElement.outerHTML;
+        var blob = new Blob([htmlContent], { type: 'text/html' });
+        var url = URL.createObjectURL(blob);
+        var link = document.createElement('a');
+        link.href = url;
+        link.download = 'editable_page.html';
+        link.click();
+      }
+    </script>
+  </head>
+  <body contenteditable="true">
+    <h1 contenteditable="true">Edit Me!</h1>
+    <p contenteditable="true">
+      This is an editable paragraph. Feel free to modify the content.
+    </p>
+    <label for="imageInput">Image URL:</label>
+    <input type="text" id="imageInput" />
+    <button onclick="updateImage()">Update Image</button>
+    <img
+      id="editableImage"
+      src="path/to/default/image.jpg"
+      alt="Editable Image"
+      width="300"
+      height="200"
+      contenteditable="true"
+    />
+    <ul>
+      <li>
+        <button contenteditable="true">Editable Button 1</button>
+      </li>
+      <li>
+        <button contenteditable="true">Editable Button 2</button>
+      </li>
+      <li>
+        <button contenteditable="true">Editable Button 3</button>
+      </li>
+    </ul>
+    <a href="#" contenteditable="true">Editable Link</a>
+
+    <button id="downloadButton" onclick="downloadPage()">Download HTML</button>
+  </body>
+</html>
